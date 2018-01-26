@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import os
+import subprocess
 
 # third-library
 import serial
@@ -39,7 +40,9 @@ def interpreter(signal):
     elif signal == keys.MUTE:
         k.tap_key(X.MUTE)
     elif signal == keys.RED:
-        k.tap_key(X.SHUTDOWN)
+        k.press_key(k.alt_key)
+        k.tap_key(k.function_keys[4])
+        k.release_key(k.alt_key)
     elif signal == keys.CH_UP:
         k.tap_key(X.NEXT_SONG)
     elif signal == keys.CH_DOWN:
@@ -47,15 +50,33 @@ def interpreter(signal):
     elif signal == keys.CONFIRM:
         k.tap_key(X.PLAY_PAUSE)
     elif signal == keys.IBUTTON:
-        k.tap_key(X.WWW)
-    elif signal == keys.MATRIX:
-        k.tap_key(X.MAIL)
+        subprocess.Popen("rhythmbox")
+    elif signal == keys.GUIDE:
+        subprocess.Popen("spotify")
     elif signal == keys.YELLOW:
         k.tap_key(X.REBOOT_SESSION)
     elif signal == keys.SKY:
         os.system("xset -display :0.0 dpms force off")
     elif signal == keys.REFRESH:
         os.system("xset -display :0.0 dpms force on ")
+    elif signal == keys.UP:
+        k.tap_key("Up")
+    elif signal == keys.DOWN:
+        k.tap_key("Down")
+    elif signal == keys.LEFT:
+        k.tap_key("Left")
+    elif signal == keys.RIGHT:
+        k.tap_key("Right")
+    elif signal == keys.PLUS:
+        k.tap_key("Return")
+    elif signal == keys.INFO:
+        k.tap_key(" ")
+    elif signal == keys.MENU:
+        k.press_key(k.shift_l_key)
+        k.tap_key('Tab')
+        k.release_key(k.shift_l_key)
+    elif signal == keys.MATRIX:
+        k.tap_key('Tab')
     else:
         print("Nothing to do.")
 
