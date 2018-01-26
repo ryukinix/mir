@@ -1,20 +1,19 @@
 #!/usr/bin/python
 # coding=utf-8
 
+import os
 
 # third-library
 import serial
 from serial.tools.list_ports import comports as list_ports
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
-
-m = PyMouse()
-k = PyKeyboard()
-
 # self-package
 import mir.keys as keys
 import mir.x as X
 
+m = PyMouse()
+k = PyKeyboard()
 BAUDRATE = 9600
 
 
@@ -53,6 +52,10 @@ def interpreter(signal):
         k.tap_key(X.MAIL)
     elif signal == keys.YELLOW:
         k.tap_key(X.REBOOT_SESSION)
+    elif signal == keys.SKY:
+        os.system("xset -display :0.0 dpms force off")
+    elif signal == keys.REFRESH:
+        os.system("xset -display :0.0 dpms force on ")
     else:
         print("Nothing to do.")
 
