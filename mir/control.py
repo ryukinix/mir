@@ -1,12 +1,13 @@
 #!/usr/bin/python
 # coding=utf-8
 
-import os
 import subprocess
+import os
 
 # third-library
 import serial
 from serial.tools.list_ports import comports as list_ports
+from serial.serialutil import SerialException
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
 # self-package
@@ -16,6 +17,21 @@ import mir.x as X
 m = PyMouse()
 k = PyKeyboard()
 BAUDRATE = 9600
+
+
+def toggle_monitor():
+    p = subprocess.Popen(["/usr/bin/xset", "-q"],
+                         stdout=subprocess.PIPE)
+    out, err = p.communicate()
+
+    result = out.decode("utf-8")
+
+    if result.find("Monitor is On") >= 0:
+        os.system("xset -display :0.0 dpms force off")
+    elif result.find("Monitor is Off") >= 0:
+        os.system("xset -display :0.0 dpms force on")
+    else:
+        print(" toggle_monitor: Error: {!r} ".format(err), end='')
 
 
 def connect(port):
@@ -31,7 +47,7 @@ def stream_connection(conn):
 
 def interpreter(signal):
     "Given a signal 8-digit hex encoded integer, make a action"
-    print("SIGNAL: {:08X}".format(signal))
+    print("SIGNAL: {:08X}".format(signal), end='')
 
     if signal == keys.VOL_UP:
         k.tap_key(X.VOL_DOWN)
@@ -56,9 +72,7 @@ def interpreter(signal):
     elif signal == keys.YELLOW:
         k.tap_key(X.REBOOT_SESSION)
     elif signal == keys.SKY:
-        os.system("xset -display :0.0 dpms force off")
-    elif signal == keys.REFRESH:
-        os.system("xset -display :0.0 dpms force on ")
+        toggle_monitor()
     elif signal == keys.UP:
         k.tap_key("Up")
     elif signal == keys.DOWN:
@@ -78,7 +92,9 @@ def interpreter(signal):
     elif signal == keys.MATRIX:
         k.tap_key('Tab')
     else:
-        print("Nothing to do.")
+        print(" - Ignored.")
+        return
+    print(" - Action made.")
 
 
 def main():
@@ -97,3 +113,5 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print("\nShutdown. Bye!")
+    except SerialException:
+        print("Device unplugged. Shutdown.")
