@@ -17,7 +17,7 @@ decode_results decodedSignal;
 long time = millis();
 const int DELAY = 75; // ms
 const int PIN_LED_SIGNAL = 2;
-const long SKY_BUTTON = 0x61F458A7;
+const long LED_BUTTON = 0x61F4906F;
 
 inline void inverse(int pin) {
   digitalWrite(pin, !digitalRead(pin));
@@ -27,7 +27,7 @@ inline void controlIR(void){
   if (irrecv.decode(&decodedSignal)) {
     if(millis() - time > DELAY){
       Serial.println(decodedSignal.value, HEX);
-      if (SKY_BUTTON == decodedSignal.value) {
+      if (LED_BUTTON == decodedSignal.value) {
         inverse(PIN_LED_SIGNAL);
         delay(DELAY); // wait for resume the irrecv a little
       } else {
