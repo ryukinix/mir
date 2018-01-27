@@ -99,7 +99,11 @@ def interpreter(signal):
 
 def main():
     "Main procedure of this fucking program"
-    port = list_ports()[0]
+    ports = list_ports()
+    if not ports:
+        print("None device attached. Review the cables.")
+        return
+    port = ports[0]
     conn = connect(port.device)
     print("Connected at {}".format(port.device))
     stream = stream_connection(conn)
