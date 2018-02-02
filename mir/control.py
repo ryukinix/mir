@@ -73,6 +73,8 @@ def interpreter(signal):
         k.tap_key(X.REBOOT_SESSION)
     elif signal == keys.SKY:
         toggle_monitor()
+    elif signal == keys.REFRESH:
+        os.system('xflock4')
     elif signal == keys.UP:
         k.tap_key("Up")
     elif signal == keys.DOWN:
