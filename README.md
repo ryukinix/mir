@@ -20,8 +20,8 @@ I use a Sky controller model D40 for my application.
 
 # Usage / Instructions
 
-1. Mount the schematics circuit as described this repository
-2. Write the program of the microcontroller at IRController dir
+1. Mount the schematics circuit as described in this repository
+2. Compile the program of the microcontroller at IRController on the firmware
 3. Plug the Arduino on the USB and run the following instructions:
 
 ```
