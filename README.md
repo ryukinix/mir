@@ -1,3 +1,5 @@
+<p align="center"><img src="logo/horizontal.png" alt="mir" height="200px"></p>
+
 # mir
 
 This project describe a simple Infrared Remote Control for a Personal
