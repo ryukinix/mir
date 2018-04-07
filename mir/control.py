@@ -65,6 +65,10 @@ def stream_connection(conn):
         yield int(conn.readline().decode('utf-8').strip(), 16)
 
 
+def open_program(program):
+    subprocess.Popen(program, stdout=open(os.devnull, "wb"))
+
+
 def interpreter(signal):
     "Given a signal 8-digit hex encoded integer, make a action"
     print("SIGNAL: {:08X}".format(signal), end='')
@@ -82,9 +86,9 @@ def interpreter(signal):
     elif signal == keys.CONFIRM:
         k.tap_key(X.PLAY_PAUSE)
     elif signal == keys.IBUTTON:
-        subprocess.Popen("/usr/bin/rhythmbox-client")
+        open_program("/usr/bin/rhythmbox-client")
     elif signal == keys.GUIDE:
-        subprocess.Popen("spotify")
+        open_program("spotify")
     elif signal == keys.SKY:
         toggle_monitor()
     elif signal == keys.REFRESH:
@@ -92,6 +96,7 @@ def interpreter(signal):
     elif signal == keys.UP:
         k.tap_key("Up")
     elif signal == keys.DOWN:
+
         k.tap_key("Down")
     elif signal == keys.LEFT:
         k.tap_key("Left")
