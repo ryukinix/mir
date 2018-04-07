@@ -17,6 +17,26 @@ import mir.x as X
 m = PyMouse()
 k = PyKeyboard()
 BAUDRATE = 9600
+actions_labels = {
+    keys.VOL_UP: "Volume up",
+    keys.VOL_DOWN: "Volume down",
+    keys.MUTE: "Mute",
+    keys.CH_UP: "Next song",
+    keys.CH_DOWN: "Previous song",
+    keys.CONFIRM: "Play/Pause",
+    keys.IBUTTON: "Open rhythmbox",
+    keys.GUIDE: "Open spotify",
+    keys.SKY: "Toggle monitor",
+    keys.REFRESH: "Xflock4",
+    keys.UP: "key: Up",
+    keys.DOWN: "key: Down",
+    keys.LEFT: "key: Left",
+    keys.RIGHT: "key: Right",
+    keys.PLUS: "key: Return",
+    keys.INFO: "key: Space",
+    keys.MENU: "key: Shift+TAB",
+    keys.MATRIX: "key: TAB"
+}
 
 
 def toggle_monitor():
@@ -96,7 +116,7 @@ def interpreter(signal):
     else:
         print(" - Ignored.")
         return
-    print(" - Action made.")
+    print(" - Action made: {}".format(actions_labels.get(signal)))
 
 
 def main():
