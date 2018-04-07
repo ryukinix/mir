@@ -82,7 +82,7 @@ def interpreter(signal):
     elif signal == keys.CONFIRM:
         k.tap_key(X.PLAY_PAUSE)
     elif signal == keys.IBUTTON:
-        subprocess.Popen("rhythmbox")
+        subprocess.Popen("/usr/bin/rhythmbox-client")
     elif signal == keys.GUIDE:
         subprocess.Popen("spotify")
     elif signal == keys.SKY:
