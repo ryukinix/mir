@@ -75,10 +75,6 @@ def interpreter(signal):
         k.tap_key(X.VOL_UP)
     elif signal == keys.MUTE:
         k.tap_key(X.MUTE)
-    elif signal == keys.RED:
-        k.press_key(k.alt_key)
-        k.tap_key(k.function_keys[4])
-        k.release_key(k.alt_key)
     elif signal == keys.CH_UP:
         k.tap_key(X.NEXT_SONG)
     elif signal == keys.CH_DOWN:
@@ -89,8 +85,6 @@ def interpreter(signal):
         subprocess.Popen("rhythmbox")
     elif signal == keys.GUIDE:
         subprocess.Popen("spotify")
-    elif signal == keys.YELLOW:
-        k.tap_key(X.REBOOT_SESSION)
     elif signal == keys.SKY:
         toggle_monitor()
     elif signal == keys.REFRESH:
