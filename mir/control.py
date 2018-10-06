@@ -96,7 +96,6 @@ def interpreter(signal):
     elif signal == keys.UP:
         k.tap_key("Up")
     elif signal == keys.DOWN:
-
         k.tap_key("Down")
     elif signal == keys.LEFT:
         k.tap_key("Left")
@@ -130,7 +129,10 @@ def main():
     stream = stream_connection(conn)
     print("Streaming started.")
     for signal in stream:
-        interpreter(signal)
+        try:
+            interpreter(signal)
+        except ValueError as e:
+            print('Exception ignored: ', e)
 
 
 if __name__ == '__main__':
