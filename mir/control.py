@@ -5,11 +5,13 @@ import subprocess
 import os
 
 # third-library
+import psutil
 import serial
 from serial.tools.list_ports import comports as list_ports
 from serial.serialutil import SerialException
 from pymouse import PyMouse
 from pykeyboard import PyKeyboard
+
 # self-package
 import mir.keys as keys
 import mir.x as X
@@ -39,6 +41,22 @@ actions_labels = {
     keys.NUM_0: "Unlock password",
     keys.RED: "Play Dragon Ball Z"
 }
+
+
+
+def check_process(process_name):
+    '''
+    Check if there is any running process that contains the given name process_name.
+    '''
+    #Iterate over the all the running process
+    for proc in psutil.process_iter():
+        try:
+            # Check if process name contains the given name string.
+            if process_name.lower() in proc.name().lower():
+                return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False;
 
 
 def toggle_monitor():
@@ -82,14 +100,20 @@ def interpreter(signal):
     elif signal == keys.MUTE:
         k.tap_key(X.MUTE)
     elif signal == keys.CH_UP:
-        # k.tap_key(X.NEXT_SONG)
-        k.tap_key(">")
+        if check_process("mpv"):
+            k.tap_key(">")
+        else:
+            k.tap_key(X.NEXT_SONG)
     elif signal == keys.CH_DOWN:
-        # k.tap_key(X.PREVIOUS_SONG)
-        k.tap_key("<")
+        if check_process("mpv"):
+            k.tap_key("<")
+        else:
+            k.tap_key(X.PREVIOUS_SONG)
     elif signal == keys.CONFIRM:
-        # k.tap_key(X.PLAY_PAUSE)
-        k.tap_key(" ")
+        if check_process("mpv"):
+            k.tap_key(" ")
+        else:
+            k.tap_key(X.PLAY_PAUSE)
     elif signal == keys.IBUTTON:
         open_program("/usr/bin/rhythmbox-client")
     elif signal == keys.GUIDE:
