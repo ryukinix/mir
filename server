@@ -1,3 +1,5 @@
 #!/bin/bash
-source venv/bin/activate
+cd $(dirname $(realpath $(readlink -f "$0")))
+pwd
+source .venv/bin/activate
 PYTHONPATH=. python mir/control.py

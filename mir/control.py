@@ -35,7 +35,9 @@ actions_labels = {
     keys.PLUS: "key: Return",
     keys.INFO: "key: Space",
     keys.MENU: "key: Shift+TAB",
-    keys.MATRIX: "key: TAB"
+    keys.MATRIX: "key: TAB",
+    keys.NUM_0: "Unlock password",
+    keys.RED: "Play Dragon Ball Z"
 }
 
 
@@ -80,15 +82,20 @@ def interpreter(signal):
     elif signal == keys.MUTE:
         k.tap_key(X.MUTE)
     elif signal == keys.CH_UP:
-        k.tap_key(X.NEXT_SONG)
+        # k.tap_key(X.NEXT_SONG)
+        k.tap_key(">")
     elif signal == keys.CH_DOWN:
-        k.tap_key(X.PREVIOUS_SONG)
+        # k.tap_key(X.PREVIOUS_SONG)
+        k.tap_key("<")
     elif signal == keys.CONFIRM:
-        k.tap_key(X.PLAY_PAUSE)
+        # k.tap_key(X.PLAY_PAUSE)
+        k.tap_key(" ")
     elif signal == keys.IBUTTON:
         open_program("/usr/bin/rhythmbox-client")
     elif signal == keys.GUIDE:
         open_program("spotify")
+    elif signal == keys.NUM_0:
+        open_program("/home/lerax/remote_unlock.sh")
     elif signal == keys.SKY:
         toggle_monitor()
     elif signal == keys.REFRESH:
@@ -111,6 +118,8 @@ def interpreter(signal):
         k.release_key(k.shift_l_key)
     elif signal == keys.MATRIX:
         k.tap_key('Tab')
+    elif signal == keys.RED:
+        open_program("/home/lerax/Desktop/dragon-ball-z/play.sh")
     else:
         print(" - Ignored.")
         return
