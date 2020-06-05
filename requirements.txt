@@ -1,2 +1,3 @@
 -e git+https://github.com/PyUserInput/PyUserInput.git#egg=PyUserInput
 pyserial
+psutil
