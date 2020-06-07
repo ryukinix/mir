@@ -29,7 +29,7 @@ actions_labels = {
     keys.IBUTTON: "Open rhythmbox",
     keys.GUIDE: "Open spotify",
     keys.SKY: "Toggle monitor",
-    keys.REFRESH: "Xflock4",
+    keys.REFRESH: "Update anilist",
     keys.UP: "key: Up",
     keys.DOWN: "key: Down",
     keys.LEFT: "key: Left",
@@ -39,7 +39,8 @@ actions_labels = {
     keys.MENU: "key: Shift+TAB",
     keys.MATRIX: "key: TAB",
     keys.NUM_0: "Unlock password",
-    keys.RED: "Play Dragon Ball Z"
+    keys.RED: "Play Dragon Ball Z",
+    keys.GREEN: "Play Uchuu Kyoudai"
 }
 
 
@@ -123,7 +124,7 @@ def interpreter(signal):
     elif signal == keys.SKY:
         toggle_monitor()
     elif signal == keys.REFRESH:
-        os.system('xflock4')
+        open_program("/mnt/extra/animes/mpv-mal-update.sh")
     elif signal == keys.UP:
         k.tap_key("Up")
     elif signal == keys.DOWN:
@@ -135,7 +136,10 @@ def interpreter(signal):
     elif signal == keys.PLUS:
         k.tap_key("Return")
     elif signal == keys.INFO:
-        k.tap_key(" ")
+        if check_process("mpv"):
+            k.tap_key("i")
+        else:
+            k.tap_key(" ")
     elif signal == keys.MENU:
         k.press_key(k.shift_l_key)
         k.tap_key('Tab')
@@ -144,6 +148,8 @@ def interpreter(signal):
         k.tap_key('Tab')
     elif signal == keys.RED:
         open_program("/home/lerax/Desktop/dragon-ball-z/play.sh")
+    elif signal == keys.GREEN:
+        open_program("/home/lerax/Desktop/uchuu-kyoudai/play.sh")
     else:
         print(" - Ignored.")
         return
