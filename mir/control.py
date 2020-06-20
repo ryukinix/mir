@@ -19,6 +19,8 @@ import mir.x as X
 m = PyMouse()
 k = PyKeyboard()
 BAUDRATE = 9600
+MAX_RETRIES = 10000
+RETRIES = MAX_RETRIES
 actions_labels = {
     keys.VOL_UP: "Volume up",
     keys.VOL_DOWN: "Volume down",
@@ -157,16 +159,19 @@ def interpreter(signal):
 
 
 def main():
+    global RETRIES
     "Main procedure of this fucking program"
     ports = list_ports()
     if not ports:
-        print("None device attached. Review the cables.")
-        return
+        raise SerialException("None device attached. Review the cables.")
+
     port = ports[0]
     conn = connect(port.device)
     print("Connected at {}".format(port.device))
     stream = stream_connection(conn)
     print("Streaming started.")
+    # restart retry counter after a succesful connection
+    RETRIES = MAX_RETRIES
     for signal in stream:
         try:
             interpreter(signal)
@@ -175,9 +180,17 @@ def main():
 
 
 if __name__ == '__main__':
-    try:
-        main()
-    except KeyboardInterrupt:
-        print("\nShutdown. Bye!")
-    except SerialException:
-        print("Device unplugged. Shutdown.")
+    import time
+    while RETRIES > 0:
+        try:
+            main()
+        except KeyboardInterrupt:
+            print("\nShutdown. Bye!")
+            break
+        except SerialException:
+            status = f"[{MAX_RETRIES - RETRIES + 1}/{MAX_RETRIES}]"
+            print(f"{status} Device unplugged. Retrying in 6s.")
+            time.sleep(6)
+            RETRIES -= 1
+        if RETRIES == MAX_RETRIES:
+            print("Sorry. I give up. Shutdown.")
