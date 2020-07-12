@@ -4,7 +4,7 @@
 import subprocess
 import os
 
-# third-library
+
 import psutil
 import serial
 from serial.tools.list_ports import comports as list_ports
@@ -42,7 +42,8 @@ actions_labels = {
     keys.MATRIX: "key: TAB",
     keys.NUM_0: "Unlock password",
     keys.RED: "Play Dragon Ball Z",
-    keys.GREEN: "Play Uchuu Kyoudai"
+    keys.GREEN: "Play Uchuu Kyoudai",
+    keys.YELLOW: "Play Dragon Ball GT"
 }
 
 
@@ -149,9 +150,11 @@ def interpreter(signal):
     elif signal == keys.MATRIX:
         k.tap_key('Tab')
     elif signal == keys.RED:
-        open_program("/home/lerax/Desktop/dragon-ball-z/play.sh")
+        open_program("/mnt/extra/animes/dragon-ball-z/play.sh")
     elif signal == keys.GREEN:
-        open_program("/home/lerax/Desktop/uchuu-kyoudai/play.sh")
+        open_program("/mnt/extra/animes/uchuu-kyoudai/play.sh")
+    elif signal == keys.YELLOW:
+        open_program("/mnt/extra/animes/dragon-ball-gt/play.sh")
     else:
         print(" - Ignored.")
         return
